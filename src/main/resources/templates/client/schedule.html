@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Расписание</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-3">Расписание тренировок</h2>
+    <p class="text-muted mb-3">
+        Выберите занятие и запишитесь онлайн.
+    </p>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Дата и время</th>
+                        <th>Занятие</th>
+                        <th>Тренер</th>
+                        <th>Мест</th>
+                        <th class="text-end">Действие</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="training : ${sessions}">
+                        <td th:text="${#temporals.format(training.sessionTime, 'dd.MM.yyyy HH:mm')}"></td>
+                        <td th:text="${training.title}"></td>
+                        <td th:text="${training.trainer.fullName}"></td>
+
+                        <td>
+                            <span th:text="${training.currentParticipants}"></span> /
+                            <span th:text="${training.maxParticipants}"></span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <form th:if="${training.userBooked}"
+                                  th:action="@{/client/cancel/{id}(id=${training.id})}"
+                                  method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    Отменить запись
+                                </button>
+                            </form>
+
+                            <form th:if="${!training.userBooked and training.currentParticipants < training.maxParticipants}"
+                                  th:action="@{/client/book/{id}(id=${training.id})}"
+                                  method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    Записаться
+                                </button>
+                            </form>
+
+                            <span th:if="${training.currentParticipants >= training.maxParticipants}"
+                                  class="badge bg-secondary">Нет мест</span>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(sessions)}">
+                        <td colspan="5" class="text-center text-muted py-3">
+                            Расписание пока пусто.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

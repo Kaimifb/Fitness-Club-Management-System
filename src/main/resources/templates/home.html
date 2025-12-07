@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Главная</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold mb-3">Добро пожаловать в Fitness Club</h1>
+            <p class="lead text-muted">
+                Современный клуб для тех, кто хочет чувствовать себя сильнее, здоровее и увереннее.
+            </p>
+            <div class="mt-3">
+                <a th:href="@{/client/schedule}" class="btn btn-primary btn-lg me-2"
+                   sec:authorize="hasRole('CLIENT')">
+                    Посмотреть расписание
+                </a>
+                <a th:href="@{/login}" class="btn btn-outline-secondary btn-lg"
+                   sec:authorize="!isAuthenticated()">
+                    Войти в личный кабинет
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 d-flex align-items-center justify-content-center mt-4 mt-lg-0">
+            <div class="card shadow-sm w-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Быстрый доступ</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2" sec:authorize="hasRole('CLIENT')">
+                            <a th:href="@{/client/profile}">👤 Личный кабинет клиента</a>
+                        </li>
+                        <li class="mb-2" sec:authorize="hasRole('TRAINER')">
+                            <a th:href="@{/trainer}">🏅 Кабинет тренера</a>
+                        </li>
+                        <li class="mb-2" sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/admin}">🛠 Админ-панель</a>
+                        </li>
+                        <li class="mb-2" sec:authorize="!isAuthenticated()">
+                            Войдите, чтобы получить доступ к расписанию и записям.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Карточки преимуществ -->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Профессиональные тренеры</h5>
+                    <p class="card-text text-muted">
+                        Аттестованные тренеры с опытом работы и индивидуальным подходом к каждому клиенту.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Удобное расписание</h5>
+                    <p class="card-text text-muted">
+                        Групповые и индивидуальные занятия в течение дня — выбирайте удобное время онлайн.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Цифровой кабинет</h5>
+                    <p class="card-text text-muted">
+                        Личный кабинет клиента: записи, история посещений и управление тренировками.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title th:text="${session.id == null} ? 'Создать занятие' : 'Редактировать занятие'"></title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-4"
+        th:text="${session.id == null} ? 'Создание нового занятия' : 'Редактирование занятия'">
+        Создание нового занятия
+    </h2>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form th:action="${session.id == null} ? @{/trainer/sessions/create} : @{/trainer/sessions/update/{id}(id=${session.id})}"
+                  th:object="${session}"
+                  method="post">
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Название занятия</label>
+                    <input type="text" id="title" class="form-control"
+                           placeholder="Например: Силовая тренировка"
+                           th:field="*{title}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sessionTime" class="form-label">Дата и время начала</label>
+                    <input type="datetime-local" id="sessionTime" class="form-control"
+                           th:field="*{sessionTime}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="durationMinutes" class="form-label">Длительность (минут)</label>
+                    <input type="number" id="durationMinutes" class="form-control"
+                           th:field="*{durationMinutes}" min="15" max="180" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="maxParticipants" class="form-label">Максимум участников</label>
+                    <input type="number" id="maxParticipants" class="form-control"
+                           th:field="*{maxParticipants}" min="1" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span th:text="${session.id == null} ? 'Создать занятие' : 'Сохранить изменения'">
+                        Создать занятие
+                    </span>
+                </button>
+
+                <a th:href="@{/trainer/schedule}" class="btn btn-outline-secondary ms-2">
+                    Отмена
+                </a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
