@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Все тренировки</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-3">Расписание всех тренировок</h2>
+    <p class="text-muted mb-3">
+        Здесь отображаются все занятия фитнес-клуба. Администратор может контролировать работу тренеров и загруженность расписания.
+    </p>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Дата и время</th>
+                        <th>Название</th>
+                        <th>Тренер</th>
+                        <th>Мест</th>
+                        <th>Статистика</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="s : ${trainings}">
+                        <td th:text="${#temporals.format(s.sessionTime, 'dd.MM.yyyy HH:mm')}"></td>
+                        <td th:text="${s.title}"></td>
+                        <td th:text="${s.trainer.fullName}"></td>
+
+                        <td>
+                            <span th:text="${s.currentParticipants}"></span> /
+                            <span th:text="${s.maxParticipants}"></span>
+                        </td>
+
+                        <td>
+                            <a th:href="@{'/admin/schedule/session/' + ${s.id}}"
+                               class="btn btn-sm btn-outline-primary">
+                                Открыть
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(trainings)}">
+                        <td colspan="5" class="text-center text-muted py-3">
+                            Занятий пока нет.
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

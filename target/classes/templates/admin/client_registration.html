@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Регистрация клиента</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-4">Регистрация нового клиента</h2>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <!-- ВАЖНО: DTO ДОЛЖНО СОВПАДАТЬ -->
+            <form th:action="@{/admin/clients/register}"
+                  th:object="${registrationDto}"
+                  method="post">
+
+                <div class="row g-4">
+
+                    <!-- ЛИЧНЫЕ ДАННЫЕ -->
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Данные клиента</h5>
+
+                        <!-- FIRST NAME -->
+                        <div class="mb-3">
+                            <label class="form-label">Имя</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{firstName}"
+                                   placeholder="Например: Айдана"
+                                   required>
+                            <div class="text-danger small" th:errors="*{firstName}"></div>
+                        </div>
+
+                        <!-- LAST NAME -->
+                        <div class="mb-3">
+                            <label class="form-label">Фамилия</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{lastName}"
+                                   placeholder="Например: Смагулова"
+                                   required>
+                            <div class="text-danger small" th:errors="*{lastName}"></div>
+                        </div>
+
+                        <!-- PHONE NUMBER -->
+                        <div class="mb-3">
+                            <label class="form-label">Телефон</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{phoneNumber}"
+                                   placeholder="+7 700 000 00 00">
+                            <div class="text-danger small" th:errors="*{phoneNumber}"></div>
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email"
+                                   class="form-control"
+                                   th:field="*{email}"
+                                   placeholder="example@gmail.com"
+                                   required>
+                            <div class="text-danger small" th:errors="*{email}"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- ДАННЫЕ АККАУНТА -->
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Учётная запись</h5>
+
+                        <!-- USERNAME -->
+                        <div class="mb-3">
+                            <label class="form-label">Логин</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{username}"
+                                   placeholder="Введите логин"
+                                   required>
+                            <div class="text-danger small" th:errors="*{username}"></div>
+                        </div>
+
+                        <!-- PASSWORD -->
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <input type="password"
+                                   class="form-control"
+                                   th:field="*{password}"
+                                   placeholder="Минимум 6 символов"
+                                   required>
+                            <div class="text-danger small" th:errors="*{password}"></div>
+                        </div>
+
+                        <p class="small text-muted">
+                            После создания клиент получит роль <strong>CLIENT</strong>.
+                        </p>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success mt-3">
+                    Создать клиента
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <a th:href="@{/admin/clients}" class="btn btn-link mt-3">
+        ← Назад к списку клиентов
+    </a>
+
+</div>
+</body>
+</html>

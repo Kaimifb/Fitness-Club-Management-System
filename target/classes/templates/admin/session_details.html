@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+
+<head>
+    <title th:text="'Занятие — ' + ${training.title}"></title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-4">Информация о занятии</h2>
+
+    <div class="mb-4">
+        <p><strong>Название:</strong> <span th:text="${training.title}"></span></p>
+        <p><strong>Тренер:</strong> <span th:text="${training.trainer.fullName}"></span></p>
+        <p><strong>Дата и время:</strong>
+            <span th:text="${#temporals.format(training.sessionTime, 'dd.MM.yyyy HH:mm')}"></span>
+        </p>
+        <p><strong>Длительность:</strong> <span th:text="${training.durationMinutes}"></span> мин</p>
+
+        <p><strong>Места:</strong>
+            <span th:text="${training.currentParticipants}"></span> /
+            <span th:text="${training.maxParticipants}"></span>
+        </p>
+    </div>
+
+    <h4 class="mb-3">Записанные клиенты</h4>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Клиент</th>
+                        <th>Телефон</th>
+                        <th>Email</th>
+                        <th>Дата записи</th>
+                        <th>Посещение</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="b, i : ${bookings}">
+                        <td th:text="${i.index + 1}"></td>
+
+                        <td th:text="${b.client.fullName}"></td>
+                        <td th:text="${b.client.phoneNumber}"></td>
+                        <td th:text="${b.client.email}"></td>
+
+                        <td th:text="${#temporals.format(b.bookingTime, 'dd.MM.yyyy HH:mm')}"></td>
+
+                        <td>
+                            <!-- Если статус NONE -->
+                            <div th:if="${b.status.name() == 'NONE'}">
+
+                                <form th:action="@{/admin/attendance/{id}(id=${b.id})}" method="post" class="d-inline">
+                                    <button class="btn btn-sm btn-success">Пришёл</button>
+                                </form>
+
+                                <form th:action="@{/admin/attendance/missed/{id}(id=${b.id})}" method="post" class="d-inline">
+                                    <button class="btn btn-sm btn-warning">Пропустил</button>
+                                </form>
+
+                            </div>
+
+                            <!-- Если посетил -->
+                            <span th:if="${b.status.name() == 'ATTENDED'}" class="badge bg-success">Посетил</span>
+
+                            <!-- Если пропустил -->
+                            <span th:if="${b.status.name() == 'MISSED'}" class="badge bg-danger">Пропустил</span>
+                        </td>
+
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(bookings)}">
+                        <td colspan="6" class="text-center text-muted py-3">
+                            Пока никто не записался.
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-Панель</title>
+</head>
+<body>
+
+<h1>🔑 Добро пожаловать, Администратор!</h1>
+
+<p>Вы вошли как: <strong th:text="${#authentication.name}">admin</strong></p>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти" />
+</form>
+
+<hr/>
+
+<h2>Управление системой</h2>
+<ul>
+    <li><a href="#">Управление пользователями</a></li>
+    <li><a href="#">Просмотр клиентов</a></li>
+    <li><a href="#">Отчеты</a></li>
+</ul>
+
+</body>
+</html>

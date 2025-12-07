@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Расписание тренера</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Мои занятия</h2>
+        <a th:href="@{/trainer/sessions/new}" class="btn btn-primary">
+            + Создать занятие
+        </a>
+    </div>
+
+    <p class="text-muted mb-3">
+        Вы можете управлять своим расписанием: создавать тренировки, редактировать и удалять занятия, а также просматривать список записавшихся клиентов.
+    </p>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Дата и время</th>
+                        <th>Название</th>
+                        <th>Длительность</th>
+                        <th>Участники</th>
+                        <th class="text-end">Действия</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <!-- Если список пуст -->
+                    <tr th:if="${#lists.isEmpty(sessions)}">
+                        <td colspan="5" class="text-center text-muted py-3">
+                            У вас пока нет созданных занятий.
+                        </td>
+                    </tr>
+
+                    <!-- Если список НЕ пуст -->
+                    <tr th:each="training : ${sessions}">
+                        <td th:text="${#temporals.format(training.sessionTime, 'dd.MM.yyyy HH:mm')}">
+                            01.01.2025 10:00
+                        </td>
+
+                        <td th:text="${training.title}">Название занятия</td>
+
+                        <td>
+                            <span th:text="${training.durationMinutes}">60</span> мин
+                        </td>
+
+                        <td>
+                            <span th:text="${training.currentParticipants}">0</span>
+                            /
+                            <span th:text="${training.maxParticipants}">10</span>
+                        </td>
+
+                        <td class="text-end">
+                            <a th:href="@{/trainer/sessions/edit/{id}(id=${training.id})}"
+                               class="btn btn-sm btn-outline-primary me-2">
+                                Редактировать
+                            </a>
+
+                            <form th:action="@{/trainer/sessions/delete/{id}(id=${training.id})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Удалить занятие? Все записи клиентов будут отменены.');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    Удалить
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>О клубе</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-4">О нашем клубе</h2>
+
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Философия клуба</h5>
+                    <p class="card-text text-muted">
+                        Мы создаём пространство, в котором важно не только количество подходов и повторений,
+                        но и настроение, с которым вы приходите на тренировку. Команда тренеров помогает
+                        выстроить системный подход к нагрузкам и восстановлению.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Форматы тренировок</h5>
+                    <ul class="text-muted mb-0">
+                        <li>Персональные тренировки в зале;</li>
+                        <li>Групповые занятия (силовые, функциональные, растяжка);</li>
+                        <li>Специализированные программы для новичков.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Контакты и график работы</h5>
+                    <p class="text-muted mb-2">
+                        Адрес: <strong>г. Астана, ул. Примерная, 10</strong><br>
+                        Телефон: <strong>+7 (700) 000-00-00</strong>
+                    </p>
+                    <p class="text-muted mb-0">
+                        Часы работы:<br>
+                        Пн–Вс: <strong>07:00 – 23:00</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

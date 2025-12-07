@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Регистрация тренера</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-4">Регистрация нового тренера</h2>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <!-- ВАЖНО: TH:OBJECT ДОЛЖЕН СООТВЕТСТВОВАТЬ КОНТРОЛЛЕРУ -->
+            <form th:action="@{/admin/trainers/register}"
+                  th:object="${registrationDto}"
+                  method="post">
+
+                <div class="row g-4">
+
+                    <!-- ЛИЧНЫЕ ДАННЫЕ -->
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Данные тренера</h5>
+
+                        <!-- FULL NAME -->
+                        <div class="mb-3">
+                            <label class="form-label">ФИО</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{fullName}"
+                                   placeholder="Иманбаев Ерлан Нурланович"
+                                   required>
+                            <div class="text-danger small" th:errors="*{fullName}"></div>
+                        </div>
+
+                        <!-- SPECIALIZATION -->
+                        <div class="mb-3">
+                            <label class="form-label">Специализация</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{specialization}"
+                                   placeholder="Силовой тренинг"
+                                   required>
+                            <div class="text-danger small" th:errors="*{specialization}"></div>
+                        </div>
+                    </div>
+
+                    <!-- АККАУНТ -->
+                    <div class="col-md-6">
+                        <h5 class="mb-3">Учётная запись тренера</h5>
+
+                        <!-- USERNAME -->
+                        <div class="mb-3">
+                            <label class="form-label">Логин</label>
+                            <input type="text"
+                                   class="form-control"
+                                   th:field="*{username}"
+                                   placeholder="username"
+                                   required>
+                            <div class="text-danger small" th:errors="*{username}"></div>
+                        </div>
+
+                        <!-- PASSWORD -->
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <input type="password"
+                                   class="form-control"
+                                   th:field="*{password}"
+                                   placeholder="Введите пароль"
+                                   required>
+                            <div class="text-danger small" th:errors="*{password}"></div>
+                        </div>
+
+                        <p class="small text-muted">
+                            После создания тренеру будет назначена роль <strong>TRAINER</strong>.
+                        </p>
+
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success mt-3">
+                    Создать тренера
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <a th:href="@{/admin/trainers}" class="btn btn-link mt-3">← Назад</a>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Вход в систему</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <h3 class="mb-3 text-center">Вход</h3>
+                    <p class="text-muted text-center mb-4">
+                        Войдите, чтобы управлять тренировками и расписанием.
+                    </p>
+
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        Неверное имя пользователя или пароль.
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-success">
+                        Вы успешно вышли из системы.
+                    </div>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Логин</label>
+                            <input type="text" id="username" name="username"
+                                   class="form-control" required autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Пароль</label>
+                            <input type="password" id="password" name="password"
+                                   class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Войти
+                        </button>
+                    </form>
+
+                    <p class="small text-muted mt-3">
+                        Для демо можно использовать тестовые аккаунты (admin / password и др., если заданы в БД).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

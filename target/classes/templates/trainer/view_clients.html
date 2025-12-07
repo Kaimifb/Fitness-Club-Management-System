@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <title>Участники занятия</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2 class="mb-3">Участники занятия</h2>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <p><strong>Название:</strong> <span th:text="${session.title}"></span></p>
+            <p><strong>Дата и время:</strong>
+                <span th:text="${#temporals.format(session.sessionTime, 'dd.MM.yyyy HH:mm')}"></span>
+            </p>
+            <p><strong>Максимум участников:</strong>
+                <span th:text="${session.maxParticipants}"></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>ФИО</th>
+                        <th>Телефон</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="c, stat : ${clients}">
+                        <td th:text="${stat.count}">1</td>
+                        <td th:text="${c.fullName}">Имя Фамилия</td>
+                        <td th:text="${c.phoneNumber}">+7...</td>
+                        <td th:text="${c.email}">email@example.com</td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(clients)}">
+                        <td colspan="4" class="text-center text-muted py-3">
+                            Нет записанных участников.
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <a th:href="@{/trainer/schedule}" class="btn btn-link mt-3">
+        ← Назад к расписанию
+    </a>
+
+</div>
+</body>
+</html>
